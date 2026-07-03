@@ -5,7 +5,7 @@ My **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Way
 
 # **TODO**
 * Optimize Win performance, CPU freq. is pinned below boost. GPU Utilization seems to be capped somewhere.
-*  ~~Fix windows detecting VM environment~~
+*  ~~Fix windows detecting VM environment~~ Unsure if this is a good idea seeing some anticheats being more aggressive in banning players on VMs with hidden states
 *  
 ## **Structure**
 ```
