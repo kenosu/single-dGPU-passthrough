@@ -17,5 +17,5 @@ modprobe nvidia_drm
 modprobe nvidia_modeset
 modprobe nvidia_uvm
 modprobe nvidia
-#restart display service and hopefully wayland xd
+#restart display service
 systemctl start sddm.service
