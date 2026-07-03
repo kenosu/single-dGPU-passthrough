@@ -22,3 +22,8 @@ My **_personal_** hook scripts and win XML for QEMU/VFIO with single GPU passthr
             └── end
                 └── unbind_vfio.sh
 ```
+## **qemu hook source**
+```
+sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
+     -O /etc/libvirt/hooks/qemu
+```
