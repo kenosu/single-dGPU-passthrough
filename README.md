@@ -9,6 +9,9 @@ My **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Way
 *  
 ## **Structure**
 ```
+$ mkdir -p /etc/libvirt/hooks/qemu.d/win10/prepare/begin && mkdir -p /etc/libvirt/hooks/qemu.d/win10/release/end
+```
+```
 /etc/libvirt/hooks $ tree         
 
 ├── kvm.conf
