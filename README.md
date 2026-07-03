@@ -5,7 +5,7 @@ My **_personal_** hook scripts and win XML for QEMU/VFIO with single GPU passthr
 
 # **TODO**
 * Optimize Win performance, CPU freq. is pinned below boost. GPU Utilization seems to be capped somewhere.
-*  ~~Spoof windows detecting VM environment~~
+*  ~~Fix windows detecting VM environment~~
 *  
 ## **Structure**
 ```
