@@ -8,10 +8,10 @@ source "/etc/libvirt/hooks/kvm.conf"
 systemctl --user -M $USER stop plasma* #Seems to be necessary for wayland(?) haven't bothered testing too much. This workaround works just fine. unbind script is able to reload plasma just fine even with this.
 systemctl stop sddm
 sleep 1
-modprobe -r nvidia_drm #|| exit 1
-modprobe -r nvidia_modeset # || exit 1
-modprobe -r nvidia_uvm #|| exit 1
-modprobe -r nvidia #|| exit 1
+modprobe -r nvidia_drm
+modprobe -r nvidia_modeset
+modprobe -r nvidia_uvm
+modprobe -r nvidia
 sleep 2
 #fuser -v /dev/nvidia*
 #lsof /dev/nvidia*
