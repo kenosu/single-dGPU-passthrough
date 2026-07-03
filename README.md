@@ -40,3 +40,5 @@ for d in /sys/kernel/iommu_groups/*/devices/*; do
 done
 ```
 [VitrIO drivers](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md)
+
+[Stable driver .iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso)
