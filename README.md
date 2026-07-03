@@ -27,3 +27,12 @@ My **_personal_** hook scripts and win XML for QEMU/VFIO with single GPU passthr
 sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
      -O /etc/libvirt/hooks/qemu
 ```
+## **IOMMU Groups**
+```
+#!/bin/bash
+for d in /sys/kernel/iommu_groups/*/devices/*; do
+  n=${d#*/iommu_groups/*}; n=${n%%/*}
+  printf 'IOMMU Group %s ' "$n"
+  lspci -nns "${d##*/}"
+done
+```
