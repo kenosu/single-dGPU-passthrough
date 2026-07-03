@@ -1,11 +1,11 @@
 #!/bin/bash
+#make sure Hook actually executes. should no longer be an issue. but might aswell keep
 echo "HOOK START $(date)" >> /tmp/libvirt-hook.log
-set -x
+set -x #debug
 ## Load the config file
-#en haug med debug mannskit fra helvete her
-#linjer: 15-20 burde kunne fucke off men lar ligge en så lenge.
+#A bunch of debug shit at 16-19 incase nvidia drivers start acting up again.
 source "/etc/libvirt/hooks/kvm.conf"
-systemctl --user -M keno stop plasma*
+systemctl --user -M $USER stop plasma* #Seems to be necessary for wayland(?) haven't bothered testing too much. This workaround works just fine. unbind script is able to reload plasma just fine even with this.
 systemctl stop sddm
 sleep 1
 modprobe -r nvidia_drm #|| exit 1
@@ -21,8 +21,8 @@ sleep 2
 modprobe vfio
 modprobe vfio_iommu_type1
 modprobe vfio_pci
-#sleep 1
-virsh -c qemu:///system nodedev-detach "$VIRSH_GPU_VIDEO"
+#Using absolute paths just in case.
+virsh -c qemu:///system nodedev-detach "$VIRSH_GPU_VIDEO" 
 virsh -c qemu:///system nodedev-detach "$VIRSH_GPU_AUDIO"
 #virsh nodedev-detach $VIRSH_GPU_VIDEO
 #virsh nodedev-detach $VIRSH_GPU_AUDIO
