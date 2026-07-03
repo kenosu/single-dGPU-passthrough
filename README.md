@@ -4,9 +4,10 @@ My **_personal_** hook scripts and win XML for QEMU/VFIO with single GPU passthr
 .rom Extracted with gpu-z
 
 # **TODO**
-* Optimize Win performance, CPU freq. is pinned below boost
-* Spoof windows detecting VM environment
+* Optimize Win performance, CPU freq. is pinned below boost. GPU Utilization seems to be capped somewhere.
 * 
+*  ~~Spoof windows detecting VM environment~~
+*  
 ## **Structure**
 ```
 /etc/libvirt/hooks $ tree         
