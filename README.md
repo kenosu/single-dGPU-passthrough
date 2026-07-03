@@ -1,7 +1,7 @@
 # single-dGPU-passthrough
-My **_personal_** hook scripts and win XML for QEMU/VFIO with single GPU passthrough on Plasma Wayland. plus patched ROM files for GA102 3080 TI
+My **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland. plus patched ROM files for GA102 3080 TI
 
-.rom Extracted with gpu-z
+### .rom Extracted with gpu-z
 
 # **TODO**
 * Optimize Win performance, CPU freq. is pinned below boost. GPU Utilization seems to be capped somewhere.
