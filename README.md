@@ -39,3 +39,4 @@ for d in /sys/kernel/iommu_groups/*/devices/*; do
   lspci -nns "${d##*/}"
 done
 ```
+[VitrIO drivers](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md)
