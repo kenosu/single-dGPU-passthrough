@@ -1,0 +1,12 @@
+/etc/libvirt/hooks $ tree         
+
+├── kvm.conf
+├── qemu
+└── qemu.d
+    └── win10
+        ├── prepare
+        │   └── begin
+        │       └── bind_vfio.sh
+        └── release
+            └── end
+                └── unbind_vfio.sh
