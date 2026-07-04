@@ -57,7 +57,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   <sub>(Simple guide to enable [SysRq](https://forum.manjaro.org/t/howto-reboot-turn-off-your-frozen-computer-reisub-reisuo/3855))</sub>
 
 - **Networking not working in the VM**
-  - The VM was originally configured with NIC device model `e1000e` but was unable to get an address from DHCP on the host machine.
+  - The VM was originally configured with NIC device model `e1000e` but I would just end up getting an APIPA address.
   
     I still don't know why this was the case, as `e1000e` should *just work*™
 
