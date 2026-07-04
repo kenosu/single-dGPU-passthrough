@@ -151,15 +151,15 @@ done
 - Stupidly easy, grab original ROM, either from TechPowerUP or extract from GPU-Z
   - Open ROM in a HEX editor I used `bliss` Search for `video`, Select everything from **before** `U..` *and delete it*... save as whatever you like e.g patched.rom, but ***Keep the original ROM*** Just in case.  
   <img width="2380" height="1261" alt="patch" src="https://github.com/user-attachments/assets/7585f3ce-be19-4e13-bd0c-de1f35095e71" />
-  - In libvirt-manager when you've added your GPU device, edit the XML adding the path to the patched ROM as such:
+- In virt-manager, after you've added your GPU device, edit the XML and add the path to the patched ROM like this:
 ```xml
 <source>
   <address .../>
 </source>
-<rom file="&lt;Directory-to-rom/patched.rom&gt;"/>
+<rom file="</directory/to/rom/patched.rom"/>
 <address .../>
 ```
-and do the same for all the GPU devices (VGA, AUDIO etc)
+  - and do the same for all the GPU devices (VGA, AUDIO etc)
 
 # TODO
 
