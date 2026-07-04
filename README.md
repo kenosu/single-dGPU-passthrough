@@ -59,8 +59,8 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   
     I still don't know why this was the case, as `e1000e` should *just work*™
 
-    I tried many approaches but never got it working with that device model. The solution was switching to VirtIO and actually configuring it correctly (detailed in Solutions)
-    VirtIO is the preferred device model anyway.
+    I tried many approaches but never got it working with that device model. The solution was switching to VirtIO and actually configuring it correctly (detailed in Solutions)  
+    VirtIO is the preferred device model anyway for performance.
     
     <sub>Don't waste your time trying to make e1000e work</sub>
 
