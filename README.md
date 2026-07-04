@@ -69,7 +69,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
 
 # Solutions
 
-- **Nvidia modules not unloading with `modprobe -r`**
+- **oading with `modprobe -r`**
   ```text
   FATAL: Module nvidia* is in use
   ```
@@ -84,7 +84,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   virsh nodedev-detach $VIRSH_GPU_VIDEO
   ```
     
-    Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
+    - Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
 
   If this doesn't solve it for you, uncomment these debugging lines:
   ```text
