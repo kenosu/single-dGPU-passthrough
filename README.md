@@ -2,7 +2,8 @@
 
 
 > ## Disclaimer
-This is **_not a guide_**. This is my **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland running `nvidia-open-dkms` drivers.  
+This is **_not a guide_**. This is my **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland running `nvidia-open-dkms` drivers. With the use case being primarly gaming.
+
 Think of this as a troubleshooting log rather than a tutorial. The references at the bottom are actual guides.  
 This repository just documents the issues I ran into, how I fixed them, and some of the same problems I've seen other people run into.
 <sub>
@@ -72,19 +73,20 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   ```text
   FATAL: Module nvidia* is in use
   ```
+    - Very simple fix. Added:
+    ```
+    systemctl --user -M $USER stop plasma*
+    ```
+     *before* killing the display manager.
+    - This should also fix: 
 - **Getting stuck at a black screen. Script would stop and freeze the system when detaching the GPU** at:
   ```
   virsh nodedev-detach $VIRSH_GPU_VIDEO
   ```
-  - Very simple fix. Added:
-    ```
-    systemctl --user -M $USER stop plasma*
-    ```
-    *Before* killing the display manager.
     
     Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
 
-  If this doesn't solve it for you, uncomment:
+  If this doesn't solve it for you, uncomment these debugging lines:
   ```text
   fuser -v /dev/nvidia*
   lsof /dev/nvidia*
@@ -95,6 +97,8 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   
     `virsh nodedev-detach $VIRSH_GPU_VIDEO`
   **Cannot be executed *before* the nvidia modules are unloaded, causing the freeze.**
+
+  
 - **Networking not working in the VM**
   - Switched the NIC device model to `VirtIO` and installed the VirtIO drivers in the Windows guest.
   - VirtIO drivers can be found here:
@@ -156,7 +160,7 @@ done
 <source>
   <address .../>
 </source>
-<rom file="/directory/to/rom/patched.rom"/>
+<rom file="/directory/to/patched.rom"/>
 <address .../>
 ```
   - and do the same for all the GPU PCI host devices (VGA, AUDIO etc)
