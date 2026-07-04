@@ -171,7 +171,10 @@ done
 
 # TODO
 
-- Optimize Windows performance, CPU freq. is pinned below boost. GPU utilization seems to be capped somewhere.
+- Optimize Windows performance
+  - CPU is pinned below boost.
+  - GPU utilization is getting capped
+  - Disk I/O maxes out and freezes system when doing installs
 - ~~Fix Windows detecting VM environment~~ Unsure if this is a good idea seeing some anticheats detecting this and some reports of people getting banned on VMs with hidden states.
 
 
