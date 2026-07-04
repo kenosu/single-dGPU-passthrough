@@ -80,9 +80,18 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
     *Before* killing the display manager.
     
     Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
-    
+
+  If this doesn't solve it for you, uncomment:
+  ```text
+  fuser -v /dev/nvidia*
+  lsof /dev/nvidia*
+  cat /proc/driver/nvidia/clients
+  modprobe -D nvidia
+  ```
+    in bind_vfio.sh and see what is death gripping the corresponding nvidia module(s)
+  
     `virsh nodedev-detach $VIRSH_GPU_VIDEO`
-  Cannot be executed *before* the nvidia modules are unloaded, causing the freeze.
+  **Cannot be executed *before* the nvidia modules are unloaded, causing the freeze.**
 - **Networking not working in the VM**
   - Switched the NIC device model to `VirtIO` and installed the VirtIO drivers in the Windows guest.
   - VirtIO drivers can be found here:
@@ -131,6 +140,10 @@ for d in /sys/kernel/iommu_groups/*/devices/*; do
   lspci -nns "${d##*/}"
 done
 ```
+> [!IMPORTANT]
+> ***IF*** your GPU's Audio device/Vga controller/usb controller/GPU's *whatever* That you <ins>***need***</ins> to passthrough are <ins>***not***</ins> in the same IOMMU group, you need to do an [ACS Override Patch](https://queuecumber.gitlab.io/linux-acs-override/) This is a ***_major pain_*** in the ass.  
+*Godspeed you unlucky bastard*
+
 
 # TODO
 
