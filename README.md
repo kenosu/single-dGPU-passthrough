@@ -2,7 +2,7 @@
 
 
 > ## Disclaimer
-This is **_not a guide_**. This is my **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland. However the references at the bottom are actual guides. This is documenting the issues I had (And I've seen others have similar issues)
+This is **_not a guide_**. This is my **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland running nvidia-open-dkms drivers. However the references at the bottom are actual guides. This repository is simply documenting the issues I ran into, how I solved them, and some of the similar problems I've seen other people run into as well.
 <sub>
 > [!NOTE]
 >  Honestly you're probably better off dual-booting.
