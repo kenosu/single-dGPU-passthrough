@@ -34,6 +34,8 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
 
 **But** if you're having the same issues, the notes below may help.
 
+**Easiest way to troubleshoot is to run the script over SSH**
+
 # Issues encountered
 
 - **Nvidia modules not unloading with `modprobe -r` Throwing error(s):**
@@ -42,7 +44,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
     ```
     - This occurred even after stopping the display manager earlier in the script.
 
-- **Script would stop and freeze the system when detaching the GPU** at the:
+- **Getting stuck at a black screen. Script would stop and freeze the system when detaching the GPU** at the:
   ```
   virsh nodedev-detach $VIRSH_GPU_VIDEO
   ```
@@ -58,6 +60,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
 
     I tried many approaches but never got it working with that device model. The solution was switching to VirtIO and actually configuring it correctly (detailed in Solutions)
     VirtIO is the preferred device model anyway.
+    
     <sub>Don't waste your time trying to make e1000e work</sub>
 
 # Solutions
@@ -66,7 +69,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   ```text
   FATAL: Module nvidia* is in use
   ```
-- **Script would stop and freeze the system when detaching the GPU** at:
+- **Getting stuck at a black screen. Script would stop and freeze the system when detaching the GPU** at:
   ```
   virsh nodedev-detach $VIRSH_GPU_VIDEO
   ```
