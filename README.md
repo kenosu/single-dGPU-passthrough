@@ -1,36 +1,125 @@
 # single-dGPU-passthrough
-My **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland. plus patched ROM files for GA102 3080 TI
 
-### .rom Extracted with gpu-z
 
-# **TODO**
-* Optimize Win performance, CPU freq. is pinned below boost. GPU Utilization seems to be capped somewhere.
-*  ~~Fix windows detecting VM environment~~ Unsure if this is a good idea seeing some anticheats being more aggressive in banning players on VMs with hidden states
-*  
-## **Structure**
+> ## Disclaimer
+This is **_not a guide_**. This is my **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland. However the references at the bottom are actual guides. This is documenting the issues I had (And I've seen others have similar issues)
+<sub>
+>  And honestly? You're probably better off dual-booting.
+>
+> Kernel-level anti-cheats are getting increasingly aggressive about fucking over VM users, and there's always a chance your favourite game simply won't run (or worse, ban you).
+>
+>**That said...** this shit is pretty cool to get working, and you learn alot        
+>   <sub>And bragging rights</sub></sub>
+
+
+
+The `.rom` was extracted with GPU-Z, but should also be available through [TechPowerUp's vgabios catalogue](https://www.techpowerup.com/vgabios/).
+
+If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom` you download is the correct one.
+
+## Setup this was done on
+
+- Host OS: EndeavourOS
+- Display Server: Plasma (Wayland)
+- Hypervisor: QEMU/KVM
+- VM Manager: virt-manager
+- GPU: 3080 TI (GA102)
+- Guest OS: Windows 10
+- Networking: VirtIO
+- GPU hooks: libvirt qemu hooks
+
+---
+
+# This repo serves mainly as a backup for my own VFIO setup
+
+**But** if you're having the same issues, the notes below may help.
+
+# Issues encountered
+
+- **Nvidia modules not unloading with `modprobe -r` Throwing error(s):**
+    ```text
+    FATAL: Module nvidia* is in use
+    ```
+    - This occurred even after stopping the display manager earlier in the script.
+
+- **Script would stop and freeze the system when detaching the GPU** at the:
+  ```
+  virsh nodedev-detach $VIRSH_GPU_VIDEO
+  ```
+  section of the script. 
+  **[sysRq](https://wiki.archlinux.org/title/Keyboard_shortcuts#Rebooting) to the rescue**
+  
+  <sub>(Simple guide to enable [SysRq](https://forum.manjaro.org/t/howto-reboot-turn-off-your-frozen-computer-reisub-reisuo/3855))</sub>
+
+- **Networking not working in the VM**
+  - The VM was originally configured with NIC device model `e1000e` but was unable to get an address from DHCP on the host machine.
+  
+    I still don't know why this was the case, as `e1000e` should *just work*™
+
+    I tried many approaches but never got it working with that device model. The solution was switching to VirtIO and actually configuring it correctly (detailed in Solutions)
+    VirtIO is the preferred device model anyway.
+    <sub>Don't waste your time trying to make e1000e work</sub>
+
+# Solutions
+
+- **Nvidia modules not unloading with `modprobe -r`**
+  ```text
+  FATAL: Module nvidia* is in use
+  ```
+- **Script would stop and freeze the system when detaching the GPU** at:
+  ```
+  virsh nodedev-detach $VIRSH_GPU_VIDEO
+  ```
+  - Very simple fix. Added:
+    ```
+    systemctl --user -M $USER stop plasma*
+    ```
+    *Before* killing the display manager.
+    
+    Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
+    
+    `virsh nodedev-detach $VIRSH_GPU_VIDEO`
+  Cannot be executed *before* the nvidia modules are unloaded.
+- **Networking not working in the VM**
+  - Switched the NIC device model to `VirtIO` and installed the VirtIO drivers in the Windows guest.
+  - VirtIO drivers can be found here:
+    - https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md
+    - [Direct download](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso) to the driver.
+      
+    - Download the ISO, attach it to `SATA CDROM` in virt-manager, boot the VM and install the drivers.
+   
+      
+## Directory structure
+- Create
 ```
-$ mkdir -p /etc/libvirt/hooks/qemu.d/win10/prepare/begin && mkdir -p /etc/libvirt/hooks/qemu.d/win10/release/end
+$ mkdir -p /etc/libvirt/hooks/qemu.d/<VM-NAME>/prepare/begin
+$ mkdir -p /etc/libvirt/hooks/qemu.d/<VM-NAME>/release/end
 ```
+- Should look like:
 ```
-/etc/libvirt/hooks $ tree         
+/etc/libvirt/hooks
 
 ├── kvm.conf
 ├── qemu
 └── qemu.d
-    └── win10
+    └── <VM-NAME>
         ├── prepare
-        │   └── begin
-        │       └── bind_vfio.sh
+        │   └── begin
+        │       └── bind_vfio.sh
         └── release
             └── end
                 └── unbind_vfio.sh
 ```
-## **qemu hook source**
-```
+
+## qemu hook source
+
+```bash
 sudo wget 'https://raw.githubusercontent.com/PassthroughPOST/VFIO-Tools/master/libvirt_hooks/qemu' \
-     -O /etc/libvirt/hooks/qemu
+    -O /etc/libvirt/hooks/qemu
 ```
-## **IOMMU Groups**
+
+## IOMMU Groups
+
 ```
 #!/bin/bash
 for d in /sys/kernel/iommu_groups/*/devices/*; do
@@ -39,6 +128,15 @@ for d in /sys/kernel/iommu_groups/*/devices/*; do
   lspci -nns "${d##*/}"
 done
 ```
-[VitrIO drivers](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md)
 
-[Stable driver .iso](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso)
+# TODO
+
+- Optimize Windows performance, CPU freq. is pinned below boost. GPU utilization seems to be capped somewhere.
+- ~~Fix Windows detecting VM environment~~ Unsure if this is a good idea seeing some anticheats detecting this and some reports of people getting banned on VMs with hidden states.
+
+
+## References
+- [Bryan Steiner GPU Passthrough Tutorial](https://github.com/bryansteiner/gpu-passthrough-tutorial)
+- [Bryan Steiner GPU Passthrough Tutorial](https://github.com/QaidVoid/Complete-Single-GPU-Passthrough)
+- [Arch Wiki - PCI passthrough via OVMF](https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF)
+- [PassthroughPOST VFIO Tools](https://github.com/PassthroughPOST/VFIO-Tools)
