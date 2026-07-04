@@ -4,6 +4,7 @@
 > ## Disclaimer
 This is **_not a guide_**. This is my **_personal_** setup for QEMU/VFIO with single dGPU passthrough on Plasma Wayland. However the references at the bottom are actual guides. This is documenting the issues I had (And I've seen others have similar issues)
 <sub>
+> [!NOTE]
 >  Honestly you're probably better off dual-booting.
 >
 > Kernel-level anti-cheats are getting increasingly aggressive about fucking over VM users, and there's always a chance your favourite game simply won't run (or worse, ban you).
