@@ -27,6 +27,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
 ## Setup this was done on
 
 - Host OS: EndeavourOS
+- Kernel: Zen
 - Display Server: Plasma (Wayland)
 - Hypervisor: QEMU/KVM
 - VM Manager: virt-manager
