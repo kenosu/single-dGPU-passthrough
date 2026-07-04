@@ -181,6 +181,6 @@ done
 
 ## References
 - [Bryan Steiner GPU Passthrough Tutorial](https://github.com/bryansteiner/gpu-passthrough-tutorial)
-- [Bryan Steiner GPU Passthrough Tutorial](https://github.com/QaidVoid/Complete-Single-GPU-Passthrough)
+- [QaidVoid Single GPU Passthrough Tutorial](https://github.com/QaidVoid/Complete-Single-GPU-Passthrough)
 - [Arch Wiki - PCI passthrough via OVMF](https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF)
 - [PassthroughPOST VFIO Tools](https://github.com/PassthroughPOST/VFIO-Tools)
