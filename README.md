@@ -94,6 +94,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
   modprobe -D nvidia
   ```
     in bind_vfio.sh and see what is death gripping the corresponding nvidia module(s)
+    - I've seen people reporting `nvidia-persistenced` was the issue, try adding `systemctl stop nvidia-persistenced` early in the script. However this did nothing for me.
   
     `virsh nodedev-detach $VIRSH_GPU_VIDEO`
   **Cannot be executed *before* the nvidia modules are unloaded, causing the freeze.**
