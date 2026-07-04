@@ -100,7 +100,7 @@ $ mkdir -p /etc/libvirt/hooks/qemu.d/<VM-NAME>/release/end
 ```
 - Should look like:
 ```
-/etc/libvirt/hooks
+/etc/libvirt/hooks $ tree
 
 ├── kvm.conf
 ├── qemu
