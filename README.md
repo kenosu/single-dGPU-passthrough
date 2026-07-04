@@ -82,7 +82,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
     Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
     
     `virsh nodedev-detach $VIRSH_GPU_VIDEO`
-  Cannot be executed *before* the nvidia modules are unloaded.
+  Cannot be executed *before* the nvidia modules are unloaded, causing the freeze.
 - **Networking not working in the VM**
   - Switched the NIC device model to `VirtIO` and installed the VirtIO drivers in the Windows guest.
   - VirtIO drivers can be found here:
