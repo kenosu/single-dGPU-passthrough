@@ -9,20 +9,27 @@ This repository just documents the issues I ran into, how I fixed them, and some
 
 
 If you run into something that's not covered here, feel free to open an issue. I'll try to help where I can, and if we figure something out, I'll probably add it to the README.
-<sub>
+
 > [!NOTE]
->  Honestly you're probably better off dual-booting.
+> If your goal is to use this as a VM for gaming, you're probably better off just dual-booting.
 >
-> Kernel-level anti-cheats are getting increasingly aggressive about fucking over VM users, and there's always a chance your favourite game simply won't run (or worse, ban you).
+> Kernel-level anti-cheats are getting increasingly aggressive about fucking over VM users, and there's always a chance your favourite game simply won't run (or worse, ban you) Vanguard for instance, does not work with this setup.
 >
->**That said...** this shit is pretty cool to get working.     
->   <sub>And earn bragging rights</sub></sub>
-
-
+>**That being said...** this shit is pretty cool to get working.     
+>   <sub>And earn bragging rights</sub>
 
 The `.rom` was extracted with GPU-Z, but should also be available through [TechPowerUp's vgabios catalogue](https://www.techpowerup.com/vgabios/).
 
 If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom` you download is the correct one.
+
+## Contents
+
+- [Issues encountered](#issues-encountered)
+- [Solutions](#solutions)
+- [Directory structure](#directory-structure)
+- [Patching ROM](#patching-rom)
+- [TODO](#todo)
+- [References](#references)
 
 ## Setup this was done on
 
@@ -44,7 +51,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
 
 **Easiest way to troubleshoot is to run the script over SSH**
 
-# Issues encountered
+## Issues encountered
 
 - **Nvidia modules not unloading with `modprobe -r` Throwing error(s):**
     ```text
@@ -52,7 +59,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
     ```
     - This occurred even after stopping the display manager earlier in the script.
 
-- **Getting stuck at a black screen. Script would stop and freeze the system when detaching the GPU** at the:
+- **Getting stuck at a black screen. Script would stop and sometimes freeze the system when detaching the GPU** at the:
   ```
   virsh nodedev-detach $VIRSH_GPU_VIDEO
   ```
@@ -71,18 +78,23 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
     
     <sub>Don't waste your time trying to make e1000e work</sub>
 
-# Solutions
+## Solutions
 
-- **oading with `modprobe -r`**
+- **nvidia modules not unloading with `modprobe -r`**
   ```text
   FATAL: Module nvidia* is in use
   ```
     - Very simple fix. Added:
-    ```
-    systemctl --user -M $USER stop plasma*
-    ```
+
+      ```systemctl --user -M $USER stop plasma*```
+
+    
+      - <sub>This will vary system-to-system. I was having LACT.service running which was also gripping nvidia modules. To see what specific services are holding *your* nvidia modules, uncomment the [debugging lines](#debug) and stop the corresponding services</sub>
+      
      *before* killing the display manager.
-    - This should also fix: 
+      
+    - This should also fix:
+      
 - **Getting stuck at a black screen. Script would stop and freeze the system when detaching the GPU** at:
   ```
   virsh nodedev-detach $VIRSH_GPU_VIDEO
@@ -91,6 +103,7 @@ If you're **not** going to extract your own `.rom`, be ***100% sure*** the `.rom
     - Nvidia modules not unloading was due to (what I believe anyway) a quirk(?) with Wayland not stopping all the Nvidia-related modules Plasma was using even when the display manager was killed.
 
   If this doesn't solve it for you, uncomment these debugging lines:
+  - ### Debug
   ```text
   fuser -v /dev/nvidia*
   lsof /dev/nvidia*
@@ -170,12 +183,12 @@ done
 ```
   - and do the same for all the GPU PCI host devices (VGA, AUDIO etc)
 
-# TODO
+## TODO
 
 - Optimize Windows performance
   - CPU is pinned below boost.
   - GPU utilization is getting capped
-  - Disk I/O maxes out and freezes system when doing installs
+  - ~~Disk I/O maxes out and freezes system when doing installs~~ Turns out .qcow2 is just ridiculously slow. Use .raw
 - ~~Fix Windows detecting VM environment~~ Unsure if this is a good idea seeing some anticheats detecting this and some reports of people getting banned on VMs with hidden states.
 
 
