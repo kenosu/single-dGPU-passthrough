@@ -1,8 +1,10 @@
 #!/bin/bash
+#make sure Hook actually executes. should no longer be an issue. but might aswell keep
 #echo "HOOK END $(date)" >> /tmp/libvirt-hook-end.log
 set -x
 ## Load the config file
 source "/etc/libvirt/hooks/kvm.conf"
+
 modprobe -r vfio
 modprobe -r vfio_iommu_type1
 modprobe -r vfio_pci
@@ -17,5 +19,5 @@ modprobe nvidia_drm
 modprobe nvidia_modeset
 modprobe nvidia_uvm
 modprobe nvidia
-#restart display service
+
 systemctl start sddm.service
